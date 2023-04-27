@@ -1,0 +1,22 @@
+.taxitornot-box-inner{
+    padding: 10px;
+    text-align: center;
+}
+
+.taxitornot-button{
+    padding: 10px;
+    cursor: pointer;
+    display: inline-block;
+    color: white;
+    font-weight: 600;
+    background: #f0ab04;
+    text-transform: uppercase;
+    border: 2px solid #ffffff;
+}
+.taxitornot-button.private{
+    background: #07529d;
+}
+
+.taxitornot-button.selected{
+    border: 2px solid #000;
+}
