@@ -12,6 +12,7 @@ jQuery(document).ready(function ($) {
                 taxit: taxit,
             },
             success: function (response) {
+                console.log(response);
                 //SGPBPopup.closePopupById(ancid); //to close popup if using popup builder
                 location.reload();
             },

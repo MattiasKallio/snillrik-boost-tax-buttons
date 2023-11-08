@@ -30,8 +30,8 @@ function snpopjboost_tax_js()
 //actions and shortcode
 //init functions 
 add_action('init', function () {
-    add_action('wp_ajax_nopriv_snpopjboost_tax_display', 'snpopjboost_tax_display', 999);
-    add_action('wp_ajax_snpopjboost_tax_display', 'snpopjboost_tax_display', 999);
+    add_action('wp_ajax_nopriv_snpopjboost_tax_display', 'snpopjboost_tax_display', 10);
+    add_action('wp_ajax_snpopjboost_tax_display', 'snpopjboost_tax_display', 10);
     add_shortcode('snpopjboost_tax_shortcode', 'snpopjboost_tax_shortcode');
 }, 999);
 
@@ -42,6 +42,9 @@ function snpopjboost_tax_display()
         wcj_session_maybe_start();
         $taxit = isset($_POST['taxit']) ? sanitize_text_field($_POST['taxit']) : 'incl';
         wcj_session_set('wcj_toggle_tax_display', $taxit);
+        if (class_exists('\LiteSpeed\Purge')) {
+            do_action('litespeed_purge_all');
+          }
         wp_send_json_success("prices are now $taxit");
     }
     wp_send_json_error("jetpack not active?");
@@ -53,9 +56,10 @@ function snpopjboost_tax_shortcode($args)
     wp_enqueue_style('snpopjboost_tax_css');
     wp_enqueue_script('snpopjboost_tax_js');
     $taxit = '';
+
     if (function_exists('wcj_session_maybe_start')) {
         wcj_session_maybe_start();
-        $taxit = wcj_session_get('wcj_toggle_tax_display', 'incl');
+        $taxit = wcj_session_get('wcj_toggle_tax_display', 'excl');
     }
     $args = shortcode_atts(array(
         'business' => 'Business',
